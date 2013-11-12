@@ -39,6 +39,9 @@
     <Filter Include="Labs">
       <UniqueIdentifier>{f09f20fd-b65f-4670-9e98-ec489fae4c53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assignment">
+      <UniqueIdentifier>{04a5ca4c-c890-4a60-9cd9-3d533f3b5544}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -202,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="Lab8.cpp">
       <Filter>Labs</Filter>
+    </ClCompile>
+    <ClCompile Include="Assignment.cpp">
+      <Filter>Assignment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -369,6 +375,9 @@
     </ClInclude>
     <ClInclude Include="Lab8.h">
       <Filter>Labs</Filter>
+    </ClInclude>
+    <ClInclude Include="Assignment.h">
+      <Filter>Assignment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
