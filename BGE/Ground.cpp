@@ -74,7 +74,7 @@ bool Ground::Initialise()
     
 	programID = Content::LoadShaderPair("standard_texture");
 
-	textureID = Content::LoadTexture("BGE_Logo_01");
+	textureID = Content::LoadTexture("background");
 
 	glGenBuffers(1, &vertexbuffer); 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);

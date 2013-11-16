@@ -209,6 +209,12 @@
     <ClCompile Include="Assignment.cpp">
       <Filter>Assignment</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Assignment</Filter>
+    </ClCompile>
+    <ClCompile Include="LeapController.cpp">
+      <Filter>Assignment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -377,6 +383,12 @@
       <Filter>Labs</Filter>
     </ClInclude>
     <ClInclude Include="Assignment.h">
+      <Filter>Assignment</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Assignment</Filter>
+    </ClInclude>
+    <ClInclude Include="LeapController.h">
       <Filter>Assignment</Filter>
     </ClInclude>
   </ItemGroup>

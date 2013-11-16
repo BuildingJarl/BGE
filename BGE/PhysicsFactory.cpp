@@ -103,7 +103,6 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateSphere(float radius, glm::ve
 	return sphereController;
 }
 
-
 shared_ptr<PhysicsController> PhysicsFactory::CreateBox(float width, float height, float depth, glm::vec3 pos, glm::quat quat)
 {
 	// Create the shape
