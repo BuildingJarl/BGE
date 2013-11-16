@@ -10,6 +10,7 @@
 #include "Box.h"
 #include "Cylinder.h"
 #include "PhysicsCamera.h"
+#include "Player.h"
 
 using namespace BGE;
 
@@ -52,9 +53,7 @@ bool Assignment::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	//physicsFactory->CreateCameraPhysics();
 
-	// Now some objects
-	shared_ptr<PhysicsController> box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 0), glm::quat()); 
-	shared_ptr<PhysicsController> box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 5), glm::quat()); 
+	shared_ptr<Player> p = make_shared<Player>(dynamicsWorld);
 
 
 	//Init Game
