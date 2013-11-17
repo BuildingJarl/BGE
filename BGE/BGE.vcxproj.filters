@@ -128,9 +128,6 @@
     <ClCompile Include="SoundSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LineDrawer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VectorDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -212,7 +209,10 @@
     <ClCompile Include="Player.cpp">
       <Filter>Assignment</Filter>
     </ClCompile>
-    <ClCompile Include="LeapController.cpp">
+    <ClCompile Include="LineDrawer.cpp">
+      <Filter>Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="LeapListener.cpp">
       <Filter>Assignment</Filter>
     </ClCompile>
   </ItemGroup>
@@ -388,7 +388,7 @@
     <ClInclude Include="Player.h">
       <Filter>Assignment</Filter>
     </ClInclude>
-    <ClInclude Include="LeapController.h">
+    <ClInclude Include="LeapListener.h">
       <Filter>Assignment</Filter>
     </ClInclude>
   </ItemGroup>

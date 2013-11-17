@@ -12,6 +12,9 @@
 #include "PhysicsCamera.h"
 #include "Player.h"
 
+
+
+
 using namespace BGE;
 
 Assignment::Assignment(void)
@@ -31,10 +34,10 @@ Assignment::~Assignment(void)
 
 bool Assignment::Initialise()
 {
-	
 	//settings
 	riftEnabled = false;
 	fullscreen = false;
+	leapEnabled = true;
 
 	//Physics Engine
 	// Set up the collision configuration and dispatcher
@@ -53,9 +56,6 @@ bool Assignment::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	//physicsFactory->CreateCameraPhysics();
 
-	shared_ptr<Player> p = make_shared<Player>(dynamicsWorld);
-
-
 	//Init Game
 	Game::Initialise();
 
@@ -67,6 +67,12 @@ bool Assignment::Initialise()
 
 void Assignment::Update(float timeDelta)
 {
+	Leap::Frame f = leapmotionController.frame();
+	float l = f.currentFramesPerSecond();
+	Leap::FingerList gg = f.fingers();
+	PrintFloat("Leap FPS: ", l);
+	PrintFloat("Leap fingers: ", gg.count());
+
 	dynamicsWorld->stepSimulation(timeDelta,100);
 	Game::Update(timeDelta);
 }

@@ -16,7 +16,6 @@ PhysicsFactory::PhysicsFactory(btDiscreteDynamicsWorld * dynamicsWorld)
 	this->dynamicsWorld = dynamicsWorld;
 }
 
-
 PhysicsFactory::~PhysicsFactory(void)
 {
 }

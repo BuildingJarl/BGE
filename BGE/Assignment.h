@@ -14,16 +14,13 @@ namespace BGE
 	{
 	private:
 		btBroadphaseInterface* broadphase;
-		// Set up the collision configuration and dispatcher
 		btDefaultCollisionConfiguration * collisionConfiguration;
 		btCollisionDispatcher * dispatcher;
- 
-		// The actual physics solver
 		btSequentialImpulseConstraintSolver * solver;
+
 	public:
 		Assignment(void);
 		~Assignment(void);
-		
 		
 		bool Initialise();
 		void Update(float timeDelta);
@@ -32,5 +29,6 @@ namespace BGE
 		// The world.
 		std::shared_ptr<PhysicsFactory> physicsFactory;
 		btDiscreteDynamicsWorld * dynamicsWorld;
+		
 	};
 }

@@ -16,6 +16,7 @@ namespace BGE
 		~Player(void);
 
 		void Update(float timeDelta);
+		void CreateRagDoll();
 
 		btDiscreteDynamicsWorld * dynamicsWorld;
 	};

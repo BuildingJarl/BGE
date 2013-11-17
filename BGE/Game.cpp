@@ -30,9 +30,9 @@ glm::vec3 BGE::RotateVector(glm::vec3 v, glm::quat q)
 	return glm::vec3(w.x, w.y, w.z);
 }
 
-
-
 Game::Game(void) {
+
+	leapEnabled = false;
 	running = false;
 	console = true;
 	fullscreen = true;
@@ -41,6 +41,7 @@ Game::Game(void) {
 	width = 800;
 	height = 600;
 	riftEnabled = false;
+	
 	// Rift
 	width = 1280;
 	height = 800;
@@ -60,7 +61,6 @@ Game::Game(void) {
 	soundSystem = make_shared<SoundSystem>();
 	soundSystem->Initialise();
 	Attach(camera);
-
 }
 
 Game::~Game(void) {
@@ -151,6 +151,16 @@ bool Game::Initialise() {
 		camera->Attach(controller);
 	}
 
+	if(leapEnabled)
+	{
+		leapmotionController.addListener(leapmotionListener);
+		/*
+		shared_ptr<LeapMotionController> leapController = make_shared<LeapMotionController>();
+		this->leapController = leapController;
+		Attach(leapController);
+		*/
+	}
+
 	LineDrawer::Instance()->Initialise();
 	
 	running = true;
@@ -177,7 +187,6 @@ void Game::PrintFloat(string message, float f)
 	ss << message << f;
 	PrintText(ss.str());
 }
-
 
 void Game::PrintText(string message)
 {
@@ -283,6 +292,11 @@ void Game::PostDraw()
 void Game::Cleanup () {
 	GameComponent::Cleanup();
 	
+	if(leapEnabled)
+	{
+		leapmotionController.removeListener(leapmotionListener);
+	}
+
 	SDL_GL_DeleteContext(maincontext);
     SDL_DestroyWindow(mainwindow);
     SDL_Quit();	
@@ -373,12 +387,10 @@ void Game::Draw()
 	}
 }
 
-
 int Game::GetWidth()
 {
 	return width;
 }
-
 
 int Game::GetHeight()
 {

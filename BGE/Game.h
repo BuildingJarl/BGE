@@ -18,6 +18,8 @@
 #include "RiftController.h"
 #include "LineDrawer.h"
 
+#include "Leap.h"
+#include "LeapListener.h"
 using namespace OVR;
 
 namespace BGE
@@ -82,24 +84,27 @@ namespace BGE
 		void PrintVector(string message, glm::vec3 v);
 		void PrintFloat(string message, float f);
 
+		shared_ptr<RiftController> riftController;
+		shared_ptr<SoundSystem> soundSystem;
 		shared_ptr<Camera> camera;
 		shared_ptr<Ground> ground;
+
+		LeapListener leapmotionListener;
+		Leap::Controller leapmotionController;
 
 		SDL_Window * mainwindow; /* Our window handle */
 		bool fullscreen;
 		bool console;
 		bool hud;
-
-		shared_ptr<RiftController> riftController;
-		shared_ptr<SoundSystem> soundSystem;
+		bool riftEnabled;
+		bool leapEnabled;
 
 		string riftMessage;
-		bool riftEnabled;
+		
 		int width, height;
 		float fps;
 		const Uint8 * keyState;
 		float elapsed;
-
 	};
 }
 
