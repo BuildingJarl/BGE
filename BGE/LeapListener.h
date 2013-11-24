@@ -1,11 +1,11 @@
 #pragma once
 #include "Leap.h"
 
-
 class LeapListener:
 	public Leap::Listener
 {
 public:
+	std::string debugInfo;
 	virtual void onInit(const Leap::Controller&);
 	virtual void onConnect(const Leap::Controller&);
 	virtual void onDisconnect(const Leap::Controller&);

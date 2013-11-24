@@ -10,7 +10,6 @@
 #include "Box.h"
 #include "Cylinder.h"
 #include "PhysicsCamera.h"
-#include "Player.h"
 
 
 
@@ -43,7 +42,6 @@ bool Assignment::Initialise()
 	// Set up the collision configuration and dispatcher
     collisionConfiguration = new btDefaultCollisionConfiguration();
     dispatcher = new btCollisionDispatcher(collisionConfiguration);
- 
     // The world.
 	btVector3 worldMin(-1000,-1000,-1000);
 	btVector3 worldMax(1000,1000,1000);
@@ -51,10 +49,18 @@ bool Assignment::Initialise()
 	solver = new btSequentialImpulseConstraintSolver();
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
     dynamicsWorld->setGravity(btVector3(0,-9,0));
-
 	physicsFactory = make_shared<PhysicsFactory>(dynamicsWorld);
 	physicsFactory->CreateGroundPhysics();
 	//physicsFactory->CreateCameraPhysics();
+
+	physicsFactory->CreateWall(glm::vec3(-60,0,-100), 20, 5);
+
+	//--------------------------------------
+
+	//--------------------------------------
+
+	//create hand
+	//attatch leapHandController to hand (calculates position in its own update method)
 
 	//Init Game
 	Game::Initialise();
@@ -67,13 +73,31 @@ bool Assignment::Initialise()
 
 void Assignment::Update(float timeDelta)
 {
-	Leap::Frame f = leapmotionController.frame();
-	float l = f.currentFramesPerSecond();
-	Leap::FingerList gg = f.fingers();
-	PrintFloat("Leap FPS: ", l);
-	PrintFloat("Leap fingers: ", gg.count());
-	PrintText(f.toString());
+	//----------------------------------------------
+	if(leapmotionController.isConnected())
+	{
+		Leap::Frame f = leapmotionController.frame();
+		//Leap::Frame fprevious = leapmotionController.frame(1);
+
+		Leap::HandList handList  = f.hands();
+
+		if(handList.count() > 0)
+		{
+			Leap::Hand hand = handList[0];
+
+			float x = hand.palmPosition().x;
+			float y = hand.palmPosition().y - 200;
+			float z = hand.palmPosition().z;
+
+		}
+	}
+	
+	//----------------------------------------------
+
+
+	
 	dynamicsWorld->stepSimulation(timeDelta,100);
+
 	Game::Update(timeDelta);
 }
 

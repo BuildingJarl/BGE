@@ -225,6 +225,11 @@ void Game::Update(float timeDelta) {
 	// Check for messages
 	fps = 1.0f / timeDelta;
 	PrintText("FPS: " + to_string((long long) fps));
+	if(leapEnabled) 
+	{
+		PrintText(leapmotionListener.debugInfo);
+	}
+
 	soundSystem->Update();
 
 	static bool lastPressed = false;
