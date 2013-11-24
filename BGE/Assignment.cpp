@@ -72,7 +72,7 @@ void Assignment::Update(float timeDelta)
 	Leap::FingerList gg = f.fingers();
 	PrintFloat("Leap FPS: ", l);
 	PrintFloat("Leap fingers: ", gg.count());
-
+	PrintText(f.toString());
 	dynamicsWorld->stepSimulation(timeDelta,100);
 	Game::Update(timeDelta);
 }
