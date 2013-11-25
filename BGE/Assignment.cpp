@@ -10,9 +10,10 @@
 #include "Box.h"
 #include "Cylinder.h"
 #include "PhysicsCamera.h"
-
-
-
+#include "Sphere.h"
+#include <btBulletDynamicsCommon.h>
+#include "Utils.h"
+#include "PhysicsHand.h"
 
 using namespace BGE;
 
@@ -53,14 +54,38 @@ bool Assignment::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	//physicsFactory->CreateCameraPhysics();
 
-	physicsFactory->CreateWall(glm::vec3(-60,0,-100), 20, 5);
+	physicsFactory->CreateWall(glm::vec3(-60,0,-50), 20, 5);
 
 	//--------------------------------------
+	float mass = 10;
+	float radius = 1;
+	btVector3 inertia(0,0,0);
+	
+	//create container for sphere (what wee see on screen)
+	shared_ptr<GameComponent> comp (new Sphere(radius));
+	leapMotionHand = comp;
+	leapMotionHand->Attach(Content::LoadModel("sphere", glm::rotate(glm::mat4(1), 180.0f, glm::vec3(0,1,0))));
+	leapMotionHand->position = glm::vec3(0,10,-30);
+	Attach(leapMotionHand); // attach to game
 
+	//create collisionShape for sphere
+	btCollisionShape * palmColShape = new btSphereShape(radius);
+	palmColShape->calculateLocalInertia(mass,inertia);
+
+	//Create PhysicsHand component and attach to sphere
+	shared_ptr<PhysicsHand> physicsHand = make_shared<PhysicsHand>();
+	leapMotionHand->Attach(physicsHand);
+
+	//create a rigid body
+	btRigidBody::btRigidBodyConstructionInfo palmCI(mass,physicsHand.get(),palmColShape,inertia);
+	btRigidBody * body = new btRigidBody(palmCI);
+	physicsHand->SetPhysicsStuff(palmColShape,body,physicsHand.get());
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+	body->setActivationState(DISABLE_DEACTIVATION);
+	
+	//attach to world
+	dynamicsWorld->addRigidBody(body);
 	//--------------------------------------
-
-	//create hand
-	//attatch leapHandController to hand (calculates position in its own update method)
 
 	//Init Game
 	Game::Initialise();
@@ -89,6 +114,14 @@ void Assignment::Update(float timeDelta)
 			float y = hand.palmPosition().y - 200;
 			float z = hand.palmPosition().z;
 
+			shared_ptr<Camera> camera = Game::Instance()->camera;
+
+			if(z > camera->position.z)
+			{
+				z = camera->position.z - 10;
+			}
+
+			leapMotionHand->position = glm::vec3(x,y,z) ;
 		}
 	}
 	

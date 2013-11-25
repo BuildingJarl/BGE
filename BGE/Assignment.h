@@ -30,5 +30,6 @@ namespace BGE
 		std::shared_ptr<PhysicsFactory> physicsFactory;
 		btDiscreteDynamicsWorld * dynamicsWorld;
 		
+		shared_ptr<GameComponent> leapMotionHand;
 	};
 }

@@ -227,7 +227,10 @@ void Game::Update(float timeDelta) {
 	PrintText("FPS: " + to_string((long long) fps));
 	if(leapEnabled) 
 	{
-		PrintText(leapmotionListener.debugInfo);
+		if(leapmotionListener.debugInfo.size() > 0)
+		{
+			PrintText(leapmotionListener.debugInfo);
+		}
 	}
 
 	soundSystem->Update();
