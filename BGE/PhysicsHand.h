@@ -3,13 +3,14 @@
 #include <btBulletDynamicsCommon.h>
 #include "Utils.h"
 
+
 namespace BGE
 {
 	class PhysicsHand:
 		public PhysicsController, public btMotionState
 	{
 	public:
-		PhysicsHand(void);
+		PhysicsHand();
 		~PhysicsHand(void);
 
 		void PhysicsHand::Update(float timeDelta);

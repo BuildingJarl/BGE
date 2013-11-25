@@ -2,7 +2,7 @@
 
 using namespace BGE;
 
-PhysicsHand::PhysicsHand(void)
+PhysicsHand::PhysicsHand()
 {
 	//pass in Leapmotion controller Here??
 

@@ -57,6 +57,9 @@ bool Assignment::Initialise()
 	physicsFactory->CreateWall(glm::vec3(-60,0,-50), 20, 5);
 
 	//--------------------------------------
+	// Attach hand to Camera to camera Acts AS "HEAD" and hands range is with in camera look
+	// create a new hand instance and in update calculate posision from parent posistion?
+
 	float mass = 10;
 	float radius = 1;
 	btVector3 inertia(0,0,0);
