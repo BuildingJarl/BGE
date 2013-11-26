@@ -14,6 +14,7 @@
 #include <btBulletDynamicsCommon.h>
 #include "Utils.h"
 #include "PhysicsHand.h"
+#include "Hand.h"
 
 using namespace BGE;
 
@@ -54,42 +55,11 @@ bool Assignment::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	//physicsFactory->CreateCameraPhysics();
 
-	physicsFactory->CreateWall(glm::vec3(-60,0,-50), 20, 5);
+	physicsFactory->CreateWall(glm::vec3(-20,0,-50), 5, 5);
 
-	//--------------------------------------
-	// Attach hand to Camera to camera Acts AS "HEAD" and hands range is with in camera look
-	// create a new hand instance and in update calculate posision from parent posistion?
-
-	float mass = 10;
-	float radius = 1;
-	btVector3 inertia(0,0,0);
+	shared_ptr<Hand> hand = make_shared<Hand>(leapmotionController,dynamicsWorld);
+	Attach(hand);
 	
-	//create container for sphere (what wee see on screen)
-	shared_ptr<GameComponent> comp (new Sphere(radius));
-	leapMotionHand = comp;
-	leapMotionHand->Attach(Content::LoadModel("sphere", glm::rotate(glm::mat4(1), 180.0f, glm::vec3(0,1,0))));
-	leapMotionHand->position = glm::vec3(0,10,-30);
-	Attach(leapMotionHand); // attach to game
-
-	//create collisionShape for sphere
-	btCollisionShape * palmColShape = new btSphereShape(radius);
-	palmColShape->calculateLocalInertia(mass,inertia);
-
-	//Create PhysicsHand component and attach to sphere
-	shared_ptr<PhysicsHand> physicsHand = make_shared<PhysicsHand>();
-	leapMotionHand->Attach(physicsHand);
-
-	//create a rigid body
-	btRigidBody::btRigidBodyConstructionInfo palmCI(mass,physicsHand.get(),palmColShape,inertia);
-	btRigidBody * body = new btRigidBody(palmCI);
-	physicsHand->SetPhysicsStuff(palmColShape,body,physicsHand.get());
-	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
-	body->setActivationState(DISABLE_DEACTIVATION);
-	
-	//attach to world
-	dynamicsWorld->addRigidBody(body);
-	//--------------------------------------
-
 	//Init Game
 	Game::Initialise();
 
@@ -101,37 +71,7 @@ bool Assignment::Initialise()
 
 void Assignment::Update(float timeDelta)
 {
-	//----------------------------------------------
-	if(leapmotionController.isConnected())
-	{
-		Leap::Frame f = leapmotionController.frame();
-		//Leap::Frame fprevious = leapmotionController.frame(1);
-
-		Leap::HandList handList  = f.hands();
-
-		if(handList.count() > 0)
-		{
-			Leap::Hand hand = handList[0];
-
-			float x = hand.palmPosition().x;
-			float y = hand.palmPosition().y - 200;
-			float z = hand.palmPosition().z;
-
-			shared_ptr<Camera> camera = Game::Instance()->camera;
-
-			if(z > camera->position.z)
-			{
-				z = camera->position.z - 10;
-			}
-
-			leapMotionHand->position = glm::vec3(x,y,z) ;
-		}
-	}
-	
-	//----------------------------------------------
-
-
-	
+		
 	dynamicsWorld->stepSimulation(timeDelta,100);
 
 	Game::Update(timeDelta);

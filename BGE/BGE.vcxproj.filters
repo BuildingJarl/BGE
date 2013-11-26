@@ -215,6 +215,9 @@
     <ClCompile Include="PhysicsHand.cpp">
       <Filter>Assignment</Filter>
     </ClCompile>
+    <ClCompile Include="Hand.cpp">
+      <Filter>Assignment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -389,6 +392,9 @@
       <Filter>Assignment</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsHand.h">
+      <Filter>Assignment</Filter>
+    </ClInclude>
+    <ClInclude Include="Hand.h">
       <Filter>Assignment</Filter>
     </ClInclude>
   </ItemGroup>

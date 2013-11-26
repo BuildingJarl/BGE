@@ -4,8 +4,7 @@ using namespace BGE;
 
 PhysicsHand::PhysicsHand()
 {
-	//pass in Leapmotion controller Here??
-
+	//pass in Leapmotion controller Here??s
 	tag = "Physics Hand";
 }
 
@@ -31,4 +30,6 @@ void PhysicsHand::Update(float timeDelta)
 {
 	// Override the one in the base class, we do not want to update our world transform from the physics object
 	// WHich is what the one in the base class does...
+
+	//all physics Behaviour can go in here
 }
