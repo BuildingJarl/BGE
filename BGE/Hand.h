@@ -12,6 +12,10 @@ namespace BGE
 	private:
 		Leap::Controller leapmotionController;
 		btDiscreteDynamicsWorld * dynamicsWorld;
+
+		void CreatePalm();
+		void CreateFingers();
+
 	public:
 		Hand(Leap::Controller leapmotionController, btDiscreteDynamicsWorld * dynamicsWorld);
 		~Hand(void);
