@@ -29,6 +29,12 @@ Hand::~Hand(void)
 
 void Hand::Update(float timeDelta) 
 {
+	for(int i = 0; i< 5; i++)
+	{
+		fingers[i]->position;
+		LineDrawer::DrawLine(palm->position,fingers[i]->position, glm::vec3(255,255,0));
+	}
+	
 
 	if(leapmotionController.isConnected())
 	{
@@ -60,8 +66,14 @@ void Hand::Update(float timeDelta)
 				Leap::Finger finger = fingerList[f];
 				Leap::Vector pos = finger.tipPosition(); //i think the position is in mm?
 
-				//fingers[f]->position = pos;
+				fingers[f]->position.x = pos.x;
+				fingers[f]->position.y = pos.y;
+				fingers[f]->position.z = pos.z;
+
+				LineDrawer::DrawLine(palm->position,fingers[f]->position, glm::vec3(255,255,0));
 			};
+
+			
 
 		}
 	}
@@ -111,8 +123,9 @@ void Hand::CreateFingers()
 		//create container for palm (what wee see on screen)
 		shared_ptr<GameComponent> fingerTip = shared_ptr<GameComponent> (new Sphere(radius));;
 		fingerTip->Attach(Content::LoadModel("sphere", glm::rotate(glm::mat4(1), 180.0f, glm::vec3(0,1,0))));
-		fingerTip->position = glm::vec3((palm->position.x - 3 ) + (fingerCount * 5),palm->position.y, palm->position.z - (18 + fingerCount));
+		fingerTip->position = glm::vec3((palm->position.x - 9 ) + (fingerCount * 5),palm->position.y, palm->position.z - (10 + fingerCount));
 		Attach(fingerTip); // attach to game
+		fingers.push_back(fingerTip);
 
 		//create collisionShape for sphere
 		btCollisionShape * fingerTipColShape = new btSphereShape(radius);
