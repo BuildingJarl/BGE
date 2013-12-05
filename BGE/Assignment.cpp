@@ -64,7 +64,7 @@ bool Assignment::Initialise()
 	Game::Initialise();
 
 	//set camera to be above world
-	camera->GetController()->position = glm::vec3(5, 4, 20);
+	camera->GetController()->position = glm::vec3(5, 100, 80);
 
 	return true;
 }
