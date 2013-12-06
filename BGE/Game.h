@@ -18,8 +18,6 @@
 #include "RiftController.h"
 #include "LineDrawer.h"
 
-#include "Leap.h"
-#include "LeapListener.h"
 using namespace OVR;
 
 namespace BGE
@@ -89,15 +87,11 @@ namespace BGE
 		shared_ptr<Camera> camera;
 		shared_ptr<Ground> ground;
 
-		LeapListener leapmotionListener;
-		Leap::Controller leapmotionController;
-
 		SDL_Window * mainwindow; /* Our window handle */
 		bool fullscreen;
 		bool console;
 		bool hud;
 		bool riftEnabled;
-		bool leapEnabled;
 
 		string riftMessage;
 		

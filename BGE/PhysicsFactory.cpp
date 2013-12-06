@@ -277,3 +277,49 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateRandomObject(glm::vec3 point
 	string name = names[which];
 	return CreateFromModel(name, point, q, glm::vec3(3,3,3));
 }
+
+shared_ptr<GameComponent> PhysicsFactory::CreateKinematicCylinder(float radius, float height, glm::vec3 pos, glm::quat quat)
+{
+	// Create the shape
+	btCollisionShape * shape = new btCylinderShape(btVector3(radius, height * 0.5f, radius));
+	btScalar mass = 1;
+	btVector3 inertia(0,0,0);
+	shape->calculateLocalInertia(mass,inertia);
+
+	// This is a container for the box model
+	shared_ptr<GameComponent> cyl = make_shared<GameComponent>(Cylinder(radius, height));
+	cyl->position = pos;
+	Game::Instance()->Attach(cyl);
+
+	// Create the rigid body
+	btDefaultMotionState * motionState = new btDefaultMotionState(btTransform(GLToBtQuat(quat),GLToBtVector(pos)));			
+	btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(mass,  motionState, shape, inertia);
+	btRigidBody * body = new btRigidBody(rigidBodyCI);
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+	body->setActivationState(DISABLE_DEACTIVATION);
+	dynamicsWorld->addRigidBody(body);
+
+	return cyl;
+}
+
+shared_ptr<GameComponent> PhysicsFactory::CreateKinematicSphere(float radius, glm::vec3 pos, glm::quat quat)
+{
+	shared_ptr<GameComponent> sphere (new Sphere(radius));
+	Game::Instance()->Attach(sphere);
+
+	btDefaultMotionState * sphereMotionState = new btDefaultMotionState(btTransform(GLToBtQuat(quat)
+		,GLToBtVector(pos)));	
+
+	btScalar mass = 1;
+	btVector3 sphereInertia(0,0,0);
+	btCollisionShape * sphereShape = new btSphereShape(radius);
+
+	sphereShape->calculateLocalInertia(mass,sphereInertia);
+	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass,sphereMotionState, sphereShape, sphereInertia);
+	btRigidBody * body = new btRigidBody(fallRigidBodyCI);
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+	body->setActivationState(DISABLE_DEACTIVATION);
+	dynamicsWorld->addRigidBody(body);
+
+	return sphere;
+}

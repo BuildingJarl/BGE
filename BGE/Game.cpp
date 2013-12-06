@@ -32,7 +32,6 @@ glm::vec3 BGE::RotateVector(glm::vec3 v, glm::quat q)
 
 Game::Game(void) {
 
-	leapEnabled = false;
 	running = false;
 	console = true;
 	fullscreen = true;
@@ -151,16 +150,6 @@ bool Game::Initialise() {
 		camera->Attach(controller);
 	}
 
-	if(leapEnabled)
-	{
-		leapmotionController.addListener(leapmotionListener);
-		/*
-		shared_ptr<LeapMotionController> leapController = make_shared<LeapMotionController>();
-		this->leapController = leapController;
-		Attach(leapController);
-		*/
-	}
-
 	LineDrawer::Instance()->Initialise();
 	
 	running = true;
@@ -225,13 +214,6 @@ void Game::Update(float timeDelta) {
 	// Check for messages
 	fps = 1.0f / timeDelta;
 	PrintText("FPS: " + to_string((long long) fps));
-	if(leapEnabled) 
-	{
-		if(leapmotionListener.debugInfo.size() > 0)
-		{
-			PrintText(leapmotionListener.debugInfo);
-		}
-	}
 
 	soundSystem->Update();
 
@@ -300,11 +282,6 @@ void Game::PostDraw()
 void Game::Cleanup () {
 	GameComponent::Cleanup();
 	
-	if(leapEnabled)
-	{
-		leapmotionController.removeListener(leapmotionListener);
-	}
-
 	SDL_GL_DeleteContext(maincontext);
     SDL_DestroyWindow(mainwindow);
     SDL_Quit();	

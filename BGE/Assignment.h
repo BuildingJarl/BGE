@@ -4,6 +4,8 @@
 #include "PhysicsController.h"
 #include "PhysicsFactory.h"
 #include <btBulletDynamicsCommon.h>
+#include "Leap.h"
+#include "LeapListener.h"
 
 using namespace std;
 
@@ -26,8 +28,10 @@ namespace BGE
 		void Update(float timeDelta);
 		void Cleanup();
 
-		// The world.
 		std::shared_ptr<PhysicsFactory> physicsFactory;
 		btDiscreteDynamicsWorld * dynamicsWorld;
+
+		LeapListener leapmotionListener;
+		Leap::Controller leapmotionController;
 	};
 }

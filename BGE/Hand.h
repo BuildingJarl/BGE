@@ -3,6 +3,8 @@
 #include "Leap.h"
 #include "Game.h"
 #include <btBulletDynamicsCommon.h>
+#include "PhysicsController.h"
+#include "PhysicsFactory.h"
 
 namespace BGE 
 {
@@ -13,19 +15,20 @@ namespace BGE
 		Leap::Controller leapmotionController;
 		btDiscreteDynamicsWorld * dynamicsWorld;
 
-		shared_ptr<GameComponent> CreatePalm(float palmRadius,float palmHeight, glm::vec3 palmPos, glm::quat quat);
-		shared_ptr<GameComponent> CreateFinger(float fingerHeight,float fingerRadius, glm::vec3 fingerPostion, glm::quat quat);
-		shared_ptr<GameComponent> CreateCapsule(float height, float radius, glm::vec3 pos, glm::quat quat);
+		//shared_ptr<KinematicController> CreatePalm(float palmRadius,float palmHeight, glm::vec3 palmPos, glm::quat quat);
+		//shared_ptr<KinematicController> CreateFingerTip(float tipRadius, glm::vec3 pos, glm::quat quat);
 
-		void CreateHand(glm::vec3 pos,glm::quat quat);
+		//shared_ptr<PhysicsController> CreateFinger(float fingerHeight,float fingerRadius, glm::vec3 fingerPostion, glm::quat quat);
+		//shared_ptr<PhysicsController> CreateCapsule(float height, float radius, glm::vec3 pos, glm::quat quat);
 		
-		shared_ptr<GameComponent> palm;
+		//void CreateHand(glm::vec3 pos,glm::quat quat);
 
 	public:
-		Hand(Leap::Controller leapmotionController, btDiscreteDynamicsWorld * dynamicsWorld);
+		Hand(Leap::Controller leapmotionController,btDiscreteDynamicsWorld * dynamicsWorld);
 		~Hand(void);
 		void Update(float timeDelta);
-		
+		bool Initialise();
+		std::shared_ptr<PhysicsFactory> physicsFactory;
 	};
 
 }

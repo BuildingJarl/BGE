@@ -53,7 +53,7 @@ bool PhysicsGame1::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
 	
-	physicsFactory->CreateWall(glm::vec3(-20,0,20), 5, 5);
+//	physicsFactory->CreateWall(glm::vec3(-20,0,20), 5, 5);
 	// Now some constraints
 	shared_ptr<PhysicsController> box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 0), glm::quat()); 
 	shared_ptr<PhysicsController> box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 5), glm::quat()); 
