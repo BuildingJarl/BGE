@@ -14,6 +14,7 @@
 #include <btBulletDynamicsCommon.h>
 #include "Utils.h"
 #include "Hand.h"
+#include "LineHand.h"
 
 using namespace BGE;
 
@@ -59,15 +60,17 @@ bool Assignment::Initialise()
 	
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
-	physicsFactory->CreateWall(glm::vec3(-20,0,-50), 5, 5, 5,5,5);
+	physicsFactory->CreateWall(glm::vec3(-20,0,-100), 5, 5, 50,50,50);
 
-	shared_ptr<Hand> hand = make_shared<Hand>(leapmotionController, dynamicsWorld);
-	Attach(hand);
+	shared_ptr<Hand> hand1 = make_shared<Hand>(leapmotionController, dynamicsWorld);
+	Attach(hand1);
+
+	//shared_ptr<LineHand> hand2 = make_shared<LineHand>(leapmotionController, dynamicsWorld);
+	//Attach(hand2);
 	
 	//Init Game
 	Game::Initialise();
-	camera->GetController()->position = glm::vec3(0, 30, 50);
-
+	camera->GetController()->position = glm::vec3(0, 100, 220);
 	return true;
 }
 

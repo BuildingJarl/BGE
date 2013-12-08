@@ -320,7 +320,7 @@ shared_ptr<KinematicController> PhysicsFactory::CreateKinematicSphere(float radi
 
 	//Create ControllerComponent to attach to container
 	shared_ptr<KinematicController> kinematicController = make_shared<KinematicController>();
-	sphere->Attach(kinematicController);;	
+	sphere->Attach(kinematicController);	
 
 	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(1, kinematicController.get(), sphereShape, btVector3(0,0,0));
 	btRigidBody * body = new btRigidBody(fallRigidBodyCI);
@@ -336,7 +336,7 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateCapsule(float radius, float 
 {
 	//make bullet shape
 	btCollisionShape *capShape = new btCapsuleShape(btScalar(radius),btScalar(height));
-	btScalar mass = 1;
+	btScalar mass = 3;
 	btVector3 capInertia(0,0,0);
 	capShape->calculateLocalInertia(mass,capInertia);
 
@@ -348,13 +348,13 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateCapsule(float radius, float 
 
 	//bottom cap
 	shared_ptr<Sphere> sphere1 = make_shared<Sphere>(radius);
-	//sphere1->worldMode = GameComponent::from_self_with_parent;
-	sphere1->position = glm::vec3(0, + (cylinderHeight - cylinderHeight/4) - (radius*2),0);
+	sphere1->worldMode = GameComponent::from_self_with_parent;
+	sphere1->position = glm::vec3(0, + (cylinderHeight /2) + (radius),0);
 	
 	//top cap
 	shared_ptr<Sphere> sphere2 = make_shared<Sphere>(radius);
-	//sphere2->worldMode = GameComponent::from_self_with_parent;
-	sphere2->position = glm::vec3(0, - (cylinderHeight - cylinderHeight/4) + (radius*2),0);
+	sphere2->worldMode = GameComponent::from_self_with_parent;
+	sphere2->position = glm::vec3(0, - (cylinderHeight/2) - (radius),0);
 	
 	capsule->Attach(sphere1);
 	capsule->Attach(sphere2);

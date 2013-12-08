@@ -218,6 +218,9 @@
     <ClCompile Include="KinematicController.cpp">
       <Filter>Assignment</Filter>
     </ClCompile>
+    <ClCompile Include="LineHand.cpp">
+      <Filter>Assignment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -395,6 +398,9 @@
       <Filter>Assignment</Filter>
     </ClInclude>
     <ClInclude Include="KinematicController.h">
+      <Filter>Assignment</Filter>
+    </ClInclude>
+    <ClInclude Include="LineHand.h">
       <Filter>Assignment</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,15 +10,15 @@
 namespace BGE 
 {
 	
-	struct XSmaller
+	struct XSmallerLH
 	{
-		bool operator()( const Leap::Vector& lx, const Leap::Vector& rx ) const {
+		bool operator()( const glm::vec3& lx, const glm::vec3& rx ) const {
     		return lx.x < rx.x;
 		}
 	};
 		
 
-	class Hand:
+	class LineHand:
 		public GameComponent
 	{
 	private:
@@ -27,8 +27,8 @@ namespace BGE
 
 
 	public:
-		Hand(Leap::Controller leapmotionController,btDiscreteDynamicsWorld * dynamicsWorld);
-		~Hand(void);
+		LineHand(Leap::Controller leapmotionController,btDiscreteDynamicsWorld * dynamicsWorld);
+		~LineHand(void);
 
 		void Update(float timeDelta);
 		bool Initialise();
@@ -41,18 +41,6 @@ namespace BGE
 		shared_ptr<KinematicController> middleTip;
 		shared_ptr<KinematicController> ringTip;
 		shared_ptr<KinematicController> pinkyTip;
-
-		shared_ptr<PhysicsController> thumbLower;
-		shared_ptr<PhysicsController> indexLower;
-		shared_ptr<PhysicsController> middleLower;
-		shared_ptr<PhysicsController> ringLower;
-		shared_ptr<PhysicsController> pinkyLower;
-
-		shared_ptr<PhysicsController> thumbUpper;
-		shared_ptr<PhysicsController> indexUpper;
-		shared_ptr<PhysicsController> middleUpper;
-		shared_ptr<PhysicsController> ringUpper;
-		shared_ptr<PhysicsController> pinkyUpper;
 
 		float elapsedLeapFrameTime;
 	};
