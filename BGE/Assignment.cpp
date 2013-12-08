@@ -65,7 +65,10 @@ bool Assignment::Initialise()
 	Attach(hand);
 	
 	//Init Game
-	return Game::Initialise();
+	Game::Initialise();
+	camera->GetController()->position = glm::vec3(0, 30, 50);
+
+	return true;
 }
 
 void Assignment::Update(float timeDelta)

@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "PhysicsController.h"
+#include "KinematicController.h"
 #include "GameComponent.h"
 
 using namespace std;
@@ -23,8 +24,9 @@ namespace BGE
 		shared_ptr<PhysicsController> CreateGroundPhysics();
 		shared_ptr<PhysicsController> CreateFromModel(string name, glm::vec3 pos, glm::quat quat, glm::vec3 scale = glm::vec3(1));
 
-		shared_ptr<GameComponent> CreateKinematicCylinder(float radius, float height, glm::vec3 pos, glm::quat quat);
-		shared_ptr<GameComponent> CreateKinematicSphere(float radius, glm::vec3 pos, glm::quat quat);
+		shared_ptr<KinematicController> CreateKinematicCylinder(float radius, float height, glm::vec3 pos);
+		shared_ptr<KinematicController> CreateKinematicSphere(float radius, glm::vec3 pos);
+		shared_ptr<PhysicsController> CreateCapsule(float radius, float height, glm::vec3 pos, glm::quat quat);
 		
 		void CreateWall(glm::vec3 startAt, float width, float height, float blockWidth, float blockHeight, float blockDepth);
 		shared_ptr<PhysicsController> CreateRandomObject(glm::vec3 point, glm::quat q);

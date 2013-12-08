@@ -4,6 +4,7 @@
 #include "Game.h"
 #include <btBulletDynamicsCommon.h>
 #include "PhysicsController.h"
+#include "KinematicController.h"
 #include "PhysicsFactory.h"
 
 namespace BGE 
@@ -26,9 +27,21 @@ namespace BGE
 	public:
 		Hand(Leap::Controller leapmotionController,btDiscreteDynamicsWorld * dynamicsWorld);
 		~Hand(void);
+
 		void Update(float timeDelta);
 		bool Initialise();
+
 		std::shared_ptr<PhysicsFactory> physicsFactory;
+
+		shared_ptr<KinematicController> palm;
+
+		shared_ptr<KinematicController> thumbTip;
+		shared_ptr<KinematicController> indexTip;
+		shared_ptr<KinematicController> middleTip;
+		shared_ptr<KinematicController> ringTip;
+		shared_ptr<KinematicController> pinkyTip;
+
+		float elapsedLeapFrameTime;
 	};
 
 }

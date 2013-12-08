@@ -9,6 +9,7 @@
 #include "Model.h"
 #include "dirent.h"
 #include "Utils.h"
+#include "KinematicMotionState.h"
 using namespace BGE;
 
 PhysicsFactory::PhysicsFactory(btDiscreteDynamicsWorld * dynamicsWorld)
@@ -278,48 +279,100 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateRandomObject(glm::vec3 point
 	return CreateFromModel(name, point, q, glm::vec3(3,3,3));
 }
 
-shared_ptr<GameComponent> PhysicsFactory::CreateKinematicCylinder(float radius, float height, glm::vec3 pos, glm::quat quat)
+shared_ptr<KinematicController> PhysicsFactory::CreateKinematicCylinder(float radius, float height, glm::vec3 pos)
 {
 	// Create the shape
 	btCollisionShape * shape = new btCylinderShape(btVector3(radius, height * 0.5f, radius));
-	btScalar mass = 1;
-	btVector3 inertia(0,0,0);
-	shape->calculateLocalInertia(mass,inertia);
+	shape->calculateLocalInertia(1,btVector3(0,0,0));
 
 	// This is a container for the box model
-	shared_ptr<GameComponent> cyl = make_shared<GameComponent>(Cylinder(radius, height));
-	cyl->position = pos;
-	Game::Instance()->Attach(cyl);
+	shared_ptr<GameComponent> cylinder = make_shared<GameComponent>(Cylinder(radius, height));
+	cylinder->position = pos;
+	Game::Instance()->Attach(cylinder);
+
+	//Create ControllerComponent to attach to container
+	shared_ptr<KinematicController> kinematicController = make_shared<KinematicController>();
+	cylinder->Attach(kinematicController);
 
 	// Create the rigid body
-	btDefaultMotionState * motionState = new btDefaultMotionState(btTransform(GLToBtQuat(quat),GLToBtVector(pos)));			
-	btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(mass,  motionState, shape, inertia);
+	//KinematicMotionState *kmotionState = new KinematicMotionState(cyl.get());
+
+	btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(1,  kinematicController.get(), shape, btVector3(0,0,0));
 	btRigidBody * body = new btRigidBody(rigidBodyCI);
+	kinematicController->SetPhysicsStuff(shape, body, kinematicController.get());
 	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 	body->setActivationState(DISABLE_DEACTIVATION);
+	
 	dynamicsWorld->addRigidBody(body);
-
-	return cyl;
+	return kinematicController;
 }
 
-shared_ptr<GameComponent> PhysicsFactory::CreateKinematicSphere(float radius, glm::vec3 pos, glm::quat quat)
+shared_ptr<KinematicController> PhysicsFactory::CreateKinematicSphere(float radius, glm::vec3 pos)
 {
+	//create shape
+	btCollisionShape * sphereShape = new btSphereShape(radius);
+	sphereShape->calculateLocalInertia(1,btVector3(0,0,0));
+
+	//create container
 	shared_ptr<GameComponent> sphere (new Sphere(radius));
+	sphere->position = pos;
 	Game::Instance()->Attach(sphere);
 
-	btDefaultMotionState * sphereMotionState = new btDefaultMotionState(btTransform(GLToBtQuat(quat)
-		,GLToBtVector(pos)));	
+	//Create ControllerComponent to attach to container
+	shared_ptr<KinematicController> kinematicController = make_shared<KinematicController>();
+	sphere->Attach(kinematicController);;	
 
-	btScalar mass = 1;
-	btVector3 sphereInertia(0,0,0);
-	btCollisionShape * sphereShape = new btSphereShape(radius);
-
-	sphereShape->calculateLocalInertia(mass,sphereInertia);
-	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass,sphereMotionState, sphereShape, sphereInertia);
+	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(1, kinematicController.get(), sphereShape, btVector3(0,0,0));
 	btRigidBody * body = new btRigidBody(fallRigidBodyCI);
+	kinematicController->SetPhysicsStuff(sphereShape, body, kinematicController.get());
 	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 	body->setActivationState(DISABLE_DEACTIVATION);
-	dynamicsWorld->addRigidBody(body);
 
-	return sphere;
+	dynamicsWorld->addRigidBody(body);
+	return kinematicController;
+}
+
+shared_ptr<PhysicsController> PhysicsFactory::CreateCapsule(float radius, float height, glm::vec3 pos, glm::quat quat)
+{
+	//make bullet shape
+	btCollisionShape *capShape = new btCapsuleShape(btScalar(radius),btScalar(height));
+	btScalar mass = 1;
+	btVector3 capInertia(0,0,0);
+	capShape->calculateLocalInertia(mass,capInertia);
+
+	float cylinderHeight = height;
+
+	//combine multiple models to create a capsule
+	shared_ptr<Cylinder>  capsule = make_shared<Cylinder>(radius, cylinderHeight);
+	capsule->position = pos;
+
+	//bottom cap
+	shared_ptr<Sphere> sphere1 = make_shared<Sphere>(radius);
+	//sphere1->worldMode = GameComponent::from_self_with_parent;
+	sphere1->position = glm::vec3(0, + (cylinderHeight - cylinderHeight/4) - (radius*2),0);
+	
+	//top cap
+	shared_ptr<Sphere> sphere2 = make_shared<Sphere>(radius);
+	//sphere2->worldMode = GameComponent::from_self_with_parent;
+	sphere2->position = glm::vec3(0, - (cylinderHeight - cylinderHeight/4) + (radius*2),0);
+	
+	capsule->Attach(sphere1);
+	capsule->Attach(sphere2);
+	Game::Instance()->Attach(capsule);
+
+	//create a rigid body
+	btDefaultMotionState *capMotionState = new btDefaultMotionState(btTransform(GLToBtQuat(quat), GLToBtVector(pos)));
+	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, capMotionState, capShape, capInertia);
+	btRigidBody * body = new btRigidBody(fallRigidBodyCI);
+	dynamicsWorld->addRigidBody(body);
+ 
+
+	//make a physicsController and attach it
+	shared_ptr<PhysicsController> capControllor = make_shared<PhysicsController>(PhysicsController(capShape, body, capMotionState));
+	capControllor->tag = "Capsule";
+	body->setUserPointer(capControllor.get());
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+	capsule->Attach(capControllor);
+	
+	return capControllor;
 }
