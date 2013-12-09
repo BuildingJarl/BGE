@@ -28,7 +28,7 @@ namespace BGE
 		void Update(float timeDelta);
 		void Cleanup();
 
-		std::shared_ptr<PhysicsFactory> physicsFactory;
+		PhysicsFactory * physicsFactory;
 		btDiscreteDynamicsWorld * dynamicsWorld;
 
 		LeapListener leapmotionListener;

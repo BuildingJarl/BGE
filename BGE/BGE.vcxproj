@@ -98,6 +98,7 @@ xcopy $(LEAP_SDK)\lib\x86\msvcr100d.dll "$(TargetDir)"</Command>
     <ClCompile Include="Buddha.cpp" />
     <ClCompile Include="FlockingScenario.cpp" />
     <ClCompile Include="FountainEffect.cpp" />
+    <ClCompile Include="FPSLeapController.cpp" />
     <ClCompile Include="Hand.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="KinematicController.cpp" />
@@ -159,6 +160,7 @@ xcopy $(LEAP_SDK)\lib\x86\msvcr100d.dll "$(TargetDir)"</Command>
     <ClInclude Include="Buddha.h" />
     <ClInclude Include="FlockingScenario.h" />
     <ClInclude Include="FountainEffect.h" />
+    <ClInclude Include="FPSLeapController.h" />
     <ClInclude Include="Hand.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="KinematicController.h" />

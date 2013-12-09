@@ -15,11 +15,14 @@
 #include "Utils.h"
 #include "Hand.h"
 #include "LineHand.h"
+#include "FPSLeapController.h"
 
 using namespace BGE;
 
 Assignment::Assignment(void)
 {
+	width = 1000;
+	height = 800;
 	physicsFactory = NULL;
 	dynamicsWorld = NULL;
 	broadphase = NULL;
@@ -39,14 +42,14 @@ bool Assignment::Initialise()
 	riftEnabled = false;
 	fullscreen = false;
 
-	//leapMotion
+
+	//Add LeapMotion Listener to Leap Controller 
 	leapmotionController.addListener(leapmotionListener);
 
 	//Physics Engine
 	// Set up the collision configuration and dispatcher
     collisionConfiguration = new btDefaultCollisionConfiguration();
     dispatcher = new btCollisionDispatcher(collisionConfiguration);
-    
 	// The world.
 	btVector3 worldMin(-1000,-1000,-1000);
 	btVector3 worldMax(1000,1000,1000);
@@ -56,18 +59,26 @@ bool Assignment::Initialise()
     dynamicsWorld->setGravity(btVector3(0,-9,0));
 	
 	//Physics Factory
-	physicsFactory = make_shared<PhysicsFactory>(dynamicsWorld);
+	physicsFactory = new PhysicsFactory(dynamicsWorld);
 	
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
-	physicsFactory->CreateWall(glm::vec3(-20,0,-100), 5, 5, 50,50,50);
+	physicsFactory->CreateWall(glm::vec3(-20,0,-100), 5, 5, 20,10,20);
 
-	shared_ptr<Hand> hand1 = make_shared<Hand>(leapmotionController, dynamicsWorld);
-	Attach(hand1);
+	//Leap Motion Hands
+	//Without Joints
+	//shared_ptr<Hand> hand1 = make_shared<Hand>(leapmotionController, dynamicsWorld);
+	//Attach(hand1);
 
+	//With joints
 	//shared_ptr<LineHand> hand2 = make_shared<LineHand>(leapmotionController, dynamicsWorld);
 	//Attach(hand2);
-	
+
+
+	//Leap Camera FPS Gravity GUn
+	shared_ptr<FPSLeapController> FPSLeapcontroller = make_shared<FPSLeapController>(leapmotionController, physicsFactory);
+	camera->Attach(FPSLeapcontroller);
+
 	//Init Game
 	Game::Initialise();
 	camera->GetController()->position = glm::vec3(0, 100, 220);
@@ -88,7 +99,7 @@ void Assignment::Update(float timeDelta)
 
 void Assignment::Cleanup()
 {
-
+	//Importand -> Remove listener
 	leapmotionController.removeListener(leapmotionListener);
 	
 	Game::Cleanup();

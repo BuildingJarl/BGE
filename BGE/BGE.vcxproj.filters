@@ -221,6 +221,9 @@
     <ClCompile Include="LineHand.cpp">
       <Filter>Assignment</Filter>
     </ClCompile>
+    <ClCompile Include="FPSLeapController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -403,6 +406,7 @@
     <ClInclude Include="LineHand.h">
       <Filter>Assignment</Filter>
     </ClInclude>
+    <ClInclude Include="FPSLeapController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\CubeShader.fragmentshader">
