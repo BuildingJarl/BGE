@@ -2,6 +2,7 @@
 #include "GameComponent.h"
 #include "Leap.h"
 #include "PhysicsCamera.h"
+#include "KinematicController.h"
 
 namespace BGE
 {
@@ -9,6 +10,14 @@ namespace BGE
 	{
 	private:
 		PhysicsController * pickedUp;
+
+		int gunSelection;
+		float elapsed;
+		void GravityGun(Leap::Finger thumbNew, Leap::Finger indexNew);
+		void JointGun(Leap::Finger thumbNew, Leap::Finger indexNew);
+		void SphereGun(Leap::Finger thumbNew, Leap::Finger indexNew, float timeDelta);
+
+		shared_ptr<KinematicController> jointGunSphere;
 	public:
 		FPSLeapController(Leap::Controller leapmotionController, PhysicsFactory * physicsFactory);
 		~FPSLeapController(void);

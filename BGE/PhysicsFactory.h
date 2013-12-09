@@ -27,7 +27,8 @@ namespace BGE
 		shared_ptr<KinematicController> CreateKinematicCylinder(float radius, float height, glm::vec3 pos);
 		shared_ptr<KinematicController> CreateKinematicSphere(float radius, glm::vec3 pos);
 		shared_ptr<PhysicsController> CreateCapsule(float radius, float height, glm::vec3 pos, glm::quat quat);
-		
+		shared_ptr<PhysicsController> CreateRagDoll(glm::vec3 position);
+
 		void CreateWall(glm::vec3 startAt, float width, float height, float blockWidth, float blockHeight, float blockDepth);
 		shared_ptr<PhysicsController> CreateRandomObject(glm::vec3 point, glm::quat q);
 		btDiscreteDynamicsWorld * dynamicsWorld;

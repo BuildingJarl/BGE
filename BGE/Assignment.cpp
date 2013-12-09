@@ -63,9 +63,14 @@ bool Assignment::Initialise()
 	
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
+
 	physicsFactory->CreateWall(glm::vec3(-20,0,-100), 5, 5, 20,10,20);
+	physicsFactory->CreateRagDoll(glm::vec3(5,3,1));
+	/* Assignment Submissions */
 
 	//Leap Motion Hands
+
+	//1) Leap Motions hand displayed in BGE
 	//Without Joints
 	//shared_ptr<Hand> hand1 = make_shared<Hand>(leapmotionController, dynamicsWorld);
 	//Attach(hand1);
@@ -74,8 +79,7 @@ bool Assignment::Initialise()
 	//shared_ptr<LineHand> hand2 = make_shared<LineHand>(leapmotionController, dynamicsWorld);
 	//Attach(hand2);
 
-
-	//Leap Camera FPS Gravity GUn
+	//2) Leap Motion FPS Controller + Gravity Gun
 	shared_ptr<FPSLeapController> FPSLeapcontroller = make_shared<FPSLeapController>(leapmotionController, physicsFactory);
 	camera->Attach(FPSLeapcontroller);
 
