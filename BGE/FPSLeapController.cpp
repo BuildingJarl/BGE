@@ -379,7 +379,7 @@ void FPSLeapController::PartiGun(Leap::Finger thumbNew, Leap::Finger indexNew,  
 						shared_ptr<FountainEffect> parti = make_shared<FountainEffect>(100);
 						parti->position = partiObject->position + glm::vec3(0,5,0);
 						parti->diffuse = glm::vec3(255,255, 0);
-						partiObject->parent->Attach(parti);
+						Game::Instance()->Attach(parti);
 				}
 
 				triggerPulled = true;

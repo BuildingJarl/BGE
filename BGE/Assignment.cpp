@@ -72,7 +72,7 @@ bool Assignment::Initialise()
 	//Leap Motion Hands
 
 	//1) Leap Motions hand displayed in BGE
-	//Without Joints
+	//With Joints
 	//shared_ptr<Hand> hand1 = make_shared<Hand>(leapmotionController, dynamicsWorld);
 	//Attach(hand1);
 
@@ -81,8 +81,8 @@ bool Assignment::Initialise()
 	//Attach(hand2);
 
 	//2) Leap Motion FPS Controller + Gravity Gun
-	shared_ptr<FPSLeapController> FPSLeapcontroller = make_shared<FPSLeapController>(leapmotionController, physicsFactory);
-	camera->Attach(FPSLeapcontroller);
+	//shared_ptr<FPSLeapController> FPSLeapcontroller = make_shared<FPSLeapController>(leapmotionController, physicsFactory);
+	//camera->Attach(FPSLeapcontroller);
 
 	//Init Game
 	Game::Initialise();
