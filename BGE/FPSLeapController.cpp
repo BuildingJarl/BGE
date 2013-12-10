@@ -285,14 +285,14 @@ void FPSLeapController::RagDollGun(Leap::Finger thumbNew, Leap::Finger indexNew,
 {
 	if(thumbNew.isValid() && indexNew.isValid())
 	{
-		float timeToPass = 1.0f / 5.0f;
+		float timeToPass = 1.0f / 2.0f;
 
 		if(thumbNew.id() == indexNew.id() && elapsed > timeToPass)
 		{
 			glm::vec3 pos = parent->position + (parent->look * 5.0f);
 			shared_ptr<PhysicsController> physicsComponent = physicsFactory->CreateRagDoll(pos);
 		
-			float force = 5000.0f;
+			float force = 8000.0f;
 			physicsComponent->rigidBody->applyCentralForce(GLToBtVector(parent->look) * force);
 			elapsed = 0.0f;
 		}
@@ -356,13 +356,32 @@ void FPSLeapController::PartiGun(Leap::Finger thumbNew, Leap::Finger indexNew,  
 		{
 			if(triggerPulled == false)
 			{
-				//this doesnt work yet!
-				glm::vec3 pos = parent->position + (parent->look * 50.0f);
-		
-				shared_ptr<FountainEffect> parti = make_shared<FountainEffect>(100);
-				parti->position = pos;
-				parti->diffuse = glm::vec3(255,255, 0);
-				Game::Instance()->Attach(parti);
+				float dist = 1000.0f;
+				PhysicsController * partiObject = NULL;
+
+				btVector3 rayFrom = GLToBtVector(parent->position + (parent->look * 4.0f));
+				btVector3 rayTo = GLToBtVector(parent->position + (parent->look * dist));
+
+				btCollisionWorld::ClosestRayResultCallback rayCallback(rayFrom, rayTo);
+				physicsFactory->dynamicsWorld->rayTest(rayFrom, rayTo, rayCallback);
+
+				if (rayCallback.hasHit())
+				{
+					partiObject = reinterpret_cast<PhysicsController*>(rayCallback.m_collisionObject->getUserPointer());
+					if (partiObject->parent == Game::Instance()->GetGround().get())
+					{
+						partiObject = NULL;
+					}
+				}
+
+				if(partiObject != NULL)
+				{						
+						shared_ptr<FountainEffect> parti = make_shared<FountainEffect>(100);
+						parti->position = partiObject->position + glm::vec3(0,5,0);
+						parti->diffuse = glm::vec3(255,255, 0);
+						partiObject->parent->Attach(parti);
+				}
+
 				triggerPulled = true;
 			}
 		}

@@ -66,7 +66,6 @@ bool Assignment::Initialise()
 	physicsFactory->CreateCameraPhysics();
 
 	physicsFactory->CreateWall(glm::vec3(-20,0,-100), 5, 5, 20,10,20);
-	physicsFactory->CreateRagDoll(glm::vec3(5,3,1));
 
 	/* Assignment Submissions */
 
@@ -105,7 +104,7 @@ void Assignment::Update(float timeDelta)
 
 void Assignment::Cleanup()
 {
-	//Importand -> Remove listener
+	//Important -> Remove listener
 	leapmotionController.removeListener(leapmotionListener);
 	
 	Game::Cleanup();
