@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Utils.h"
 #include "Content.h"
+#include "FountainEffect.h"
 
 using namespace BGE;
 
@@ -12,9 +13,9 @@ FPSLeapController::FPSLeapController(Leap::Controller leapmotionController, Phys
 	this->physicsFactory = physicsFactory;
 	this->pickedUp = NULL;
 	this->gunSelection = 1;
-
+	this->triggerPulled = false;
 	this->elapsed = 10000.0f;
-	jointGunSphere = NULL;
+	this->jointGunSphere = NULL;
 }
 
 bool FPSLeapController::Initialise()
@@ -46,6 +47,18 @@ void FPSLeapController::Update(float timeDelta)
 	{
 		gunSelection = 3; 
 	}
+	if (keyState[SDL_SCANCODE_4])
+	{
+		gunSelection = 4; 
+	}
+	if (keyState[SDL_SCANCODE_5])
+	{
+		gunSelection = 5; 
+	}
+	if (keyState[SDL_SCANCODE_6])
+	{
+		gunSelection = 6; 
+	}
 
 	if(leapmotionController.isConnected())
 	{
@@ -54,7 +67,6 @@ void FPSLeapController::Update(float timeDelta)
 
 		Leap::Frame frameNew = leapmotionController.frame();
 		Leap::Frame frameOld = leapmotionController.frame(1);
-
 
 		//Camera controlls
 		//Fix This
@@ -69,7 +81,7 @@ void FPSLeapController::Update(float timeDelta)
 		int x = palmPosOld.x - palmPosNew.x;
 		int y = palmPosNew.y - palmPosOld.y; 
 
-		float scale = 0.8f;
+		float scale = 0.9f;
 		if (x != 0)
 		{
 			parent->GetController()->Yaw(x * scale);
@@ -84,7 +96,6 @@ void FPSLeapController::Update(float timeDelta)
 		//Gun
 		//This gun activates when 2 fingers change to One
 		Leap::Hand rightHandNew = frameNew.hands().rightmost();
-		Leap::Hand rightHandOld = frameOld.hands().rightmost();
 
 		Leap::Finger thumbNew = rightHandNew.fingers().leftmost();
 		Leap::Finger indexNew = rightHandNew.fingers().frontmost();
@@ -109,10 +120,25 @@ void FPSLeapController::Update(float timeDelta)
 				SphereGun( thumbNew, indexNew, timeDelta);
 				break;
 			}
+		case 4:
+			{
+				Game::Instance()->PrintText("RagDoll Gun");
+				RagDollGun( thumbNew, indexNew, timeDelta);
+				break;
+			}
+		case 5:
+			{
+				Game::Instance()->PrintText("Morph Gun");
+				MorphGun( thumbNew, indexNew, timeDelta);
+				break;
+			}
+		case 6:
+			{
+				Game::Instance()->PrintText("Patri Gun");
+				PartiGun( thumbNew, indexNew, timeDelta);
+				break;
+			}
 		}
-		
-		
-		//GravityGun end
 	}
 	GameComponent::Update(timeDelta);
 }
@@ -161,7 +187,6 @@ void FPSLeapController::GravityGun(Leap::Finger thumbNew, Leap::Finger indexNew)
 					}
 					pickedUp->rigidBody->setLinearVelocity(GLToBtVector(v));    
 					pickedUp->rigidBody->activate();		
-					//what = pickedUp->tag;	
 				}
 			}
 			else if(!pickedUp == NULL)
@@ -213,8 +238,14 @@ void FPSLeapController::JointGun(Leap::Finger thumbNew, Leap::Finger indexNew)
 					{
 						if(!jointGunObj->rigidBody->isKinematicObject())
 						{
+							shared_ptr<PhysicsController> chainObject = physicsFactory->CreateCapsule(3,4, glm::vec3(0,0,0), glm::quat());
+
 							btPoint2PointConstraint * p2p;
-							p2p = new btPoint2PointConstraint(*jointGunSphere->rigidBody,*jointGunObj->rigidBody, btVector3(0,-3,0),btVector3(0,3,0));
+
+							p2p = new btPoint2PointConstraint(*jointGunSphere->rigidBody,*chainObject->rigidBody, btVector3(0,-3,0),btVector3(0,4,0));
+							physicsFactory->dynamicsWorld->addConstraint(p2p);
+
+							p2p = new btPoint2PointConstraint(*chainObject->rigidBody,*jointGunObj->rigidBody, btVector3(0,-4,0),btVector3(0,3,0));
 							physicsFactory->dynamicsWorld->addConstraint(p2p);
 	
 							jointGunObj = NULL;
@@ -246,6 +277,98 @@ void FPSLeapController::SphereGun(Leap::Finger thumbNew, Leap::Finger indexNew, 
 		else
 		{
 			elapsed += timeDelta;
+		}
+	}
+}
+
+void FPSLeapController::RagDollGun(Leap::Finger thumbNew, Leap::Finger indexNew,  float timeDelta) 
+{
+	if(thumbNew.isValid() && indexNew.isValid())
+	{
+		float timeToPass = 1.0f / 5.0f;
+
+		if(thumbNew.id() == indexNew.id() && elapsed > timeToPass)
+		{
+			glm::vec3 pos = parent->position + (parent->look * 5.0f);
+			shared_ptr<PhysicsController> physicsComponent = physicsFactory->CreateRagDoll(pos);
+		
+			float force = 5000.0f;
+			physicsComponent->rigidBody->applyCentralForce(GLToBtVector(parent->look) * force);
+			elapsed = 0.0f;
+		}
+		else
+		{
+			elapsed += timeDelta;
+		}
+	}
+}
+
+void FPSLeapController::MorphGun(Leap::Finger thumbNew, Leap::Finger indexNew,  float timeDelta)
+{
+	if(thumbNew.isValid() && indexNew.isValid())
+		{
+			if(thumbNew.id() == indexNew.id() && triggerPulled == false)
+			{
+
+				float dist = 500.0f;
+				PhysicsController * morphObject = NULL;
+
+				btVector3 rayFrom = GLToBtVector(parent->position + (parent->look * 4.0f));
+				btVector3 rayTo = GLToBtVector(parent->position + (parent->look * dist));
+
+				btCollisionWorld::ClosestRayResultCallback rayCallback(rayFrom, rayTo);
+				physicsFactory->dynamicsWorld->rayTest(rayFrom, rayTo, rayCallback);
+
+				if (rayCallback.hasHit())
+				{
+					morphObject = reinterpret_cast<PhysicsController*>(rayCallback.m_collisionObject->getUserPointer());
+					if (morphObject->parent == Game::Instance()->GetGround().get())
+					{
+						morphObject = NULL;
+					}
+				}
+
+				if(morphObject != NULL)
+				{
+					glm::vec3 pos = morphObject->position;
+
+					//delete previous object
+					physicsFactory->dynamicsWorld->removeRigidBody(morphObject->rigidBody);
+					morphObject->parent->alive = false;
+
+					physicsFactory->CreateCylinder(3,4,pos,glm::quat());
+				}
+
+				triggerPulled = true;
+			}
+			else
+			{
+				triggerPulled = false;
+			}
+		}
+}
+
+void FPSLeapController::PartiGun(Leap::Finger thumbNew, Leap::Finger indexNew,  float timeDelta)
+{
+	if(thumbNew.isValid() && indexNew.isValid())
+	{
+		if(thumbNew.id() == indexNew.id())
+		{
+			if(triggerPulled == false)
+			{
+
+				glm::vec3 pos = parent->position + (parent->look * 50.0f);
+		
+				shared_ptr<FountainEffect> parti = make_shared<FountainEffect>(100);
+				parti->position = pos;
+				parti->diffuse = glm::vec3(255,255, 0);
+				Game::Instance()->Attach(parti);
+				triggerPulled = true;
+			}
+		}
+		else
+		{
+			triggerPulled = false;
 		}
 	}
 }

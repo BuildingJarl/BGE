@@ -16,6 +16,7 @@
 #include "Hand.h"
 #include "LineHand.h"
 #include "FPSLeapController.h"
+#include "FountainEffect.h"
 
 using namespace BGE;
 
@@ -66,6 +67,7 @@ bool Assignment::Initialise()
 
 	physicsFactory->CreateWall(glm::vec3(-20,0,-100), 5, 5, 20,10,20);
 	physicsFactory->CreateRagDoll(glm::vec3(5,3,1));
+
 	/* Assignment Submissions */
 
 	//Leap Motion Hands

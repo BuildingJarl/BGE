@@ -222,7 +222,7 @@
       <Filter>Assignment</Filter>
     </ClCompile>
     <ClCompile Include="FPSLeapController.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Assignment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -406,7 +406,9 @@
     <ClInclude Include="LineHand.h">
       <Filter>Assignment</Filter>
     </ClInclude>
-    <ClInclude Include="FPSLeapController.h" />
+    <ClInclude Include="FPSLeapController.h">
+      <Filter>Assignment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\CubeShader.fragmentshader">

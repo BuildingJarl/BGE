@@ -10,12 +10,16 @@ namespace BGE
 	{
 	private:
 		PhysicsController * pickedUp;
-
+		bool triggerPulled;
 		int gunSelection;
 		float elapsed;
+
 		void GravityGun(Leap::Finger thumbNew, Leap::Finger indexNew);
 		void JointGun(Leap::Finger thumbNew, Leap::Finger indexNew);
 		void SphereGun(Leap::Finger thumbNew, Leap::Finger indexNew, float timeDelta);
+		void RagDollGun(Leap::Finger thumbNew, Leap::Finger indexNew, float timeDelta);
+		void MorphGun(Leap::Finger thumbNew, Leap::Finger indexNew,  float timeDelta);
+		void PartiGun(Leap::Finger thumbNew, Leap::Finger indexNew,  float timeDelta);
 
 		shared_ptr<KinematicController> jointGunSphere;
 	public:
