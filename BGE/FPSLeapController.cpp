@@ -238,14 +238,14 @@ void FPSLeapController::JointGun(Leap::Finger thumbNew, Leap::Finger indexNew)
 					{
 						if(!jointGunObj->rigidBody->isKinematicObject())
 						{
-							shared_ptr<PhysicsController> chainObject = physicsFactory->CreateCapsule(3,4, glm::vec3(0,0,0), glm::quat());
+							shared_ptr<PhysicsController> chainObject = physicsFactory->CreateCapsule(3,10, glm::vec3(0,0,0), glm::quat());
 
 							btPoint2PointConstraint * p2p;
 
-							p2p = new btPoint2PointConstraint(*jointGunSphere->rigidBody,*chainObject->rigidBody, btVector3(0,-3,0),btVector3(0,4,0));
+							p2p = new btPoint2PointConstraint(*jointGunSphere->rigidBody,*chainObject->rigidBody, btVector3(0,-3,0),btVector3(0,10,0));
 							physicsFactory->dynamicsWorld->addConstraint(p2p);
 
-							p2p = new btPoint2PointConstraint(*chainObject->rigidBody,*jointGunObj->rigidBody, btVector3(0,-4,0),btVector3(0,3,0));
+							p2p = new btPoint2PointConstraint(*chainObject->rigidBody,*jointGunObj->rigidBody, btVector3(0,-10,0),btVector3(0,3,0));
 							physicsFactory->dynamicsWorld->addConstraint(p2p);
 	
 							jointGunObj = NULL;
@@ -356,7 +356,7 @@ void FPSLeapController::PartiGun(Leap::Finger thumbNew, Leap::Finger indexNew,  
 		{
 			if(triggerPulled == false)
 			{
-
+				//this doesnt work yet!
 				glm::vec3 pos = parent->position + (parent->look * 50.0f);
 		
 				shared_ptr<FountainEffect> parti = make_shared<FountainEffect>(100);
