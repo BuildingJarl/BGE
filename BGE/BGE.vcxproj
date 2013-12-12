@@ -114,6 +114,7 @@ xcopy $(LEAP_SDK)\lib\x86\msvcr100d.dll "$(TargetDir)"</Command>
     <ClCompile Include="Lab7.cpp" />
     <ClCompile Include="Lab8.cpp" />
     <ClCompile Include="LazerBeam.cpp" />
+    <ClCompile Include="LeapHandGun.cpp" />
     <ClCompile Include="LeapListener.cpp" />
     <ClCompile Include="LineHand.cpp" />
     <ClCompile Include="ObstacleAvoidanceScenario.cpp" />
@@ -176,6 +177,7 @@ xcopy $(LEAP_SDK)\lib\x86\msvcr100d.dll "$(TargetDir)"</Command>
     <ClInclude Include="Lab7.h" />
     <ClInclude Include="Lab8.h" />
     <ClInclude Include="LazerBeam.h" />
+    <ClInclude Include="LeapHandGun.h" />
     <ClInclude Include="LeapListener.h" />
     <ClInclude Include="LineHand.h" />
     <ClInclude Include="ObstacleAvoidanceScenario.h" />

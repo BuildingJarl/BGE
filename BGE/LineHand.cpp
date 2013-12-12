@@ -32,6 +32,9 @@ LineHand::~LineHand(void)
 
 void LineHand::Update(float timeDelta) 
 {
+	
+	
+	Game::Instance()->camera->GetController()->position = (palm->parent->position + (palm->parent->look * -100.0f)) + glm::vec3(0,10,0);
 
 	if(leapmotionController.isConnected())
 	{

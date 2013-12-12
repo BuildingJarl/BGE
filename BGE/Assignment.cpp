@@ -15,6 +15,7 @@
 #include "Utils.h"
 #include "Hand.h"
 #include "LineHand.h"
+#include "LeapHandGun.h"
 #include "FPSLeapController.h"
 #include "FountainEffect.h"
 
@@ -71,22 +72,14 @@ bool Assignment::Initialise()
 
 	//Leap Motion Hands
 
-	//1) Leap Motions hand displayed in BGE
-	//With Joints
-	//shared_ptr<Hand> hand1 = make_shared<Hand>(leapmotionController, dynamicsWorld);
-	//Attach(hand1);
+	//shared_ptr<LeapHandGun> leapHandGun = make_shared<LeapHandGun>(leapmotionController,physicsFactory);
+	//Attach(leapHandGun);
 
-	//With joints
-	//shared_ptr<LineHand> hand2 = make_shared<LineHand>(leapmotionController, dynamicsWorld);
-	//Attach(hand2);
-
-	//2) Leap Motion FPS Controller + Gravity Gun
-	//shared_ptr<FPSLeapController> FPSLeapcontroller = make_shared<FPSLeapController>(leapmotionController, physicsFactory);
-	//camera->Attach(FPSLeapcontroller);
+	shared_ptr<LineHand> lineHand = make_shared<LineHand>(leapmotionController,dynamicsWorld);
+	Attach(lineHand);
 
 	//Init Game
 	Game::Initialise();
-	camera->GetController()->position = glm::vec3(0, 100, 220);
 	return true;
 }
 

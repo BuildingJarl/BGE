@@ -224,6 +224,9 @@
     <ClCompile Include="FPSLeapController.cpp">
       <Filter>Assignment</Filter>
     </ClCompile>
+    <ClCompile Include="LeapHandGun.cpp">
+      <Filter>Assignment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -407,6 +410,9 @@
       <Filter>Assignment</Filter>
     </ClInclude>
     <ClInclude Include="FPSLeapController.h">
+      <Filter>Assignment</Filter>
+    </ClInclude>
+    <ClInclude Include="LeapHandGun.h">
       <Filter>Assignment</Filter>
     </ClInclude>
   </ItemGroup>

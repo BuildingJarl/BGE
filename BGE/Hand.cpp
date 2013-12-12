@@ -19,20 +19,15 @@ bool Hand::Initialise()
 
 	float fingerLowerHeight = 14;
 	float fingerUpperHeight = 8;
-
+	/*
 	//create lower fingers
 	thumbLower = physicsFactory->CreateCapsule(0.5f, fingerLowerHeight, glm::vec3(0, 0, 0), glm::quat());
 	indexLower = physicsFactory->CreateCapsule(0.5f, fingerLowerHeight, glm::vec3(0, 0, 0), glm::quat());
-	middleLower = physicsFactory->CreateCapsule(0.5f, fingerLowerHeight, glm::vec3(0, 0, 0), glm::quat());
-	ringLower = physicsFactory->CreateCapsule(0.5f, fingerLowerHeight, glm::vec3(0, 0, 0), glm::quat());
-	pinkyLower = physicsFactory->CreateCapsule(0.5f, fingerLowerHeight, glm::vec3(0, 0, 0), glm::quat());
 
 	//create Upper fingers
 	thumbUpper = physicsFactory->CreateCapsule(0.5f, fingerUpperHeight, glm::vec3(0, 0, 0), glm::quat());
 	indexUpper = physicsFactory->CreateCapsule(0.5f, fingerUpperHeight, glm::vec3(0, 0, 0), glm::quat());
-	middleUpper = physicsFactory->CreateCapsule(0.5f, fingerUpperHeight, glm::vec3(0, 0, 0), glm::quat());
-	ringUpper = physicsFactory->CreateCapsule(0.5f, fingerUpperHeight, glm::vec3(0, 0, 0), glm::quat());
-	pinkyUpper = physicsFactory->CreateCapsule(0.5f, fingerUpperHeight, glm::vec3(0, 0, 0), glm::quat());
+
 
 	//create joints to link fingers together
 	//thumbLower to thumbUpper
@@ -41,15 +36,7 @@ bool Hand::Initialise()
 	//indexLower to indexUpper
 	ptpConstraint= new btPoint2PointConstraint(*indexLower->rigidBody, *indexUpper->rigidBody, btVector3(0, fingerLowerHeight/2 + 1, 0), btVector3(0, -fingerUpperHeight/2, 0));
 	dynamicsWorld->addConstraint(ptpConstraint);
-	//middleLower to middleUpper
-	ptpConstraint= new btPoint2PointConstraint(*middleLower->rigidBody, *middleUpper->rigidBody, btVector3(0, fingerLowerHeight/2 + 1, 0), btVector3(0, -fingerUpperHeight/2, 0));
-	dynamicsWorld->addConstraint(ptpConstraint);
-	//ringLower to ringUpper
-	ptpConstraint= new btPoint2PointConstraint(*ringLower->rigidBody, *ringUpper->rigidBody, btVector3(0, fingerLowerHeight/2 + 1, 0), btVector3(0, -fingerUpperHeight/2, 0));
-	dynamicsWorld->addConstraint(ptpConstraint);
-	//pinkyLower to pinkyUpper
-	ptpConstraint= new btPoint2PointConstraint(*pinkyLower->rigidBody, *pinkyUpper->rigidBody, btVector3(0, fingerLowerHeight/2 + 1, 0), btVector3(0, -fingerUpperHeight/2, 0));
-	dynamicsWorld->addConstraint(ptpConstraint);
+
 
 	//link fingers to palm
 	//palm to thumbLower
@@ -58,22 +45,12 @@ bool Hand::Initialise()
 	//palm to indexLower
 	ptpConstraint= new btPoint2PointConstraint(*palm->rigidBody, *indexLower->rigidBody, btVector3(-3, 0, -5),btVector3(0,-fingerLowerHeight/2,0));
     dynamicsWorld->addConstraint(ptpConstraint);
-	//palm to middleLower
-	ptpConstraint= new btPoint2PointConstraint(*palm->rigidBody, *middleLower->rigidBody, btVector3(0 , 0, -6),btVector3(0,-fingerLowerHeight/2,0));
-    dynamicsWorld->addConstraint(ptpConstraint);
-	//palm to ringLower
-	ptpConstraint= new btPoint2PointConstraint(*palm->rigidBody, *ringLower->rigidBody, btVector3(3, 0, -5),btVector3(0,-fingerLowerHeight/2,0));
-    dynamicsWorld->addConstraint(ptpConstraint);
-	//palm to pinkyLower
-	ptpConstraint= new btPoint2PointConstraint(*palm->rigidBody, *pinkyLower->rigidBody, btVector3(6, 0, -4),btVector3(0,-fingerLowerHeight/2,0));
-    dynamicsWorld->addConstraint(ptpConstraint);
+
 	
 	//create Finger tips
 	thumbTip = physicsFactory->CreateKinematicSphere(1, glm::vec3(-6, 40, -7));
 	indexTip = physicsFactory->CreateKinematicSphere(1, glm::vec3(-3, 40, -9));
-	middleTip = physicsFactory->CreateKinematicSphere(1, glm::vec3(0, 40, -10));
-	ringTip = physicsFactory->CreateKinematicSphere(1, glm::vec3(3, 40, -9));
-	pinkyTip = physicsFactory->CreateKinematicSphere(1, glm::vec3(6, 40, -8));
+
 
 	//thumbUpper to thumb tip
 	ptpConstraint= new btPoint2PointConstraint(*thumbUpper->rigidBody, *thumbTip->rigidBody, btVector3(0, fingerUpperHeight/2, 0), btVector3(0, 0, 2));
@@ -81,16 +58,7 @@ bool Hand::Initialise()
 	//indexthumbUpper to index tip
 	ptpConstraint= new btPoint2PointConstraint(*indexUpper->rigidBody, *indexTip->rigidBody, btVector3(0, fingerUpperHeight/2, 0),btVector3(0, 0, 2));
     dynamicsWorld->addConstraint(ptpConstraint);
-	//middlethumbUpper to middle tip
-	ptpConstraint= new btPoint2PointConstraint(*middleUpper->rigidBody, *middleTip->rigidBody, btVector3(0 , fingerUpperHeight/2, 0),btVector3(0, 0, 2));
-	dynamicsWorld->addConstraint(ptpConstraint);
-	//ringthumbUpper to ring tip
-	ptpConstraint= new btPoint2PointConstraint(*ringUpper->rigidBody, *ringTip->rigidBody, btVector3(0, fingerUpperHeight/2, 0),btVector3(0, 0, 2));
-	dynamicsWorld->addConstraint(ptpConstraint);
-	//pinkythumbUpper to pinky tip
-	ptpConstraint= new btPoint2PointConstraint(*pinkyUpper->rigidBody, *pinkyTip->rigidBody, btVector3(0, fingerUpperHeight/2, 0),btVector3(0, 0, 2));
-    dynamicsWorld->addConstraint(ptpConstraint);
-	
+	*/
 	return true;
 }
 
@@ -114,11 +82,32 @@ void Hand::Update(float timeDelta)
 
 		palm->parent->position = glm::vec3(palmPosNew.x, palmPosNew.y - 200, palmPosNew.z);
 
-		thumbTip->parent->position += glm::vec3(changeInPalmPos.x,changeInPalmPos.y-200,changeInPalmPos.z);
-		indexTip->parent->position += glm::vec3(changeInPalmPos.x,changeInPalmPos.y-200,changeInPalmPos.z);
-		middleTip->parent->position += glm::vec3(changeInPalmPos.x,changeInPalmPos.y-200,changeInPalmPos.z);
-		ringTip->parent->position += glm::vec3(changeInPalmPos.x,changeInPalmPos.y-200,changeInPalmPos.z);
-		pinkyTip->parent->position += glm::vec3(changeInPalmPos.x,changeInPalmPos.y-200,changeInPalmPos.z);
+		//thumbTip->parent->position += glm::vec3(changeInPalmPos.x,changeInPalmPos.y-200,changeInPalmPos.z);
+		//indexTip->parent->position += glm::vec3(changeInPalmPos.x,changeInPalmPos.y-200,changeInPalmPos.z);
+
+		Leap::Hand h = fNew.hands()[0];
+
+		float pitch = h.direction().pitch();
+        float yaw = h.direction().yaw();
+        float roll = h.palmNormal().roll();
+
+		//palm->parent->Pitch(glm::degrees(pitch));
+		//palm->parent->Yaw(glm::degrees(yaw));
+		//palm->parent->Roll(glm::degrees(roll));
+
+		Game::Instance()->PrintFloat("yaw " , glm::degrees(pitch));
+		Game::Instance()->PrintFloat("pitch " , glm::degrees(yaw));
+		Game::Instance()->PrintFloat("roll " , glm::degrees(roll));
+
+		glm::vec3 aaa = glm::vec3(h.direction().x,h.direction().y,h.direction().z);
+		glm::vec3 bbb = glm::vec3(h.palmNormal().x,h.palmNormal().y,h.palmNormal().z);
+		bbb = glm::normalize(bbb);
+		glm::vec3 axis = glm::cross(GameComponent::basisLook, aaa);
+		axis = glm::normalize(axis);
+
+		float theta = glm::acos(glm::dot(bbb, GameComponent::basisLook));
+		palm->parent->orientation = glm::angleAxis(glm::degrees(theta), axis);
+
 
 		/*
 		Leap::FingerList fingerListNow = fNew.hands()[0].fingers();
