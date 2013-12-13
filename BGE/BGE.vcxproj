@@ -107,6 +107,7 @@ xcopy $(LEAP_SDK)\lib\x86\msvcr100d.dll "$(TargetDir)"</Command>
     <ClCompile Include="FPSLeapController.cpp" />
     <ClCompile Include="Hand.cpp" />
     <ClCompile Include="IdleState.cpp" />
+    <ClCompile Include="ivanPatri.cpp" />
     <ClCompile Include="KinematicController.cpp" />
     <ClCompile Include="Lab4.cpp" />
     <ClCompile Include="Lab5.cpp" />
@@ -170,6 +171,7 @@ xcopy $(LEAP_SDK)\lib\x86\msvcr100d.dll "$(TargetDir)"</Command>
     <ClInclude Include="FPSLeapController.h" />
     <ClInclude Include="Hand.h" />
     <ClInclude Include="IdleState.h" />
+    <ClInclude Include="ivanPatri.h" />
     <ClInclude Include="KinematicController.h" />
     <ClInclude Include="Lab4.h" />
     <ClInclude Include="Lab5.h" />

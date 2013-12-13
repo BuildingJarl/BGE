@@ -6,55 +6,49 @@
 #include "PhysicsController.h"
 #include "KinematicController.h"
 #include "PhysicsFactory.h"
+#include "ivanPatri.h"
 
 namespace BGE 
 {
-	
-	struct XSmaller
-	{
-		bool operator()( const Leap::Vector& lx, const Leap::Vector& rx ) const {
-    		return lx.x < rx.x;
-		}
-	};
-		
 
 	class Hand:
 		public GameComponent
 	{
 	private:
 		Leap::Controller leapmotionController;
-		btDiscreteDynamicsWorld * dynamicsWorld;
+		PhysicsFactory * physicsFactory;
 
 
 	public:
-		Hand(Leap::Controller leapmotionController,btDiscreteDynamicsWorld * dynamicsWorld);
+		Hand(Leap::Controller leapmotionController, PhysicsFactory * physicsFactory);
 		~Hand(void);
 
 		void Update(float timeDelta);
 		bool Initialise();
 
-		std::shared_ptr<PhysicsFactory> physicsFactory;
+		shared_ptr<ivanPatri> palm;
 
-		shared_ptr<KinematicController> palm;
-		shared_ptr<KinematicController> thumbTip;
-		shared_ptr<KinematicController> indexTip;
-		shared_ptr<KinematicController> middleTip;
-		shared_ptr<KinematicController> ringTip;
-		shared_ptr<KinematicController> pinkyTip;
+		shared_ptr<ivanPatri> thumb;
+		shared_ptr<ivanPatri> middle;
 
-		shared_ptr<PhysicsController> thumbLower;
-		shared_ptr<PhysicsController> indexLower;
-		shared_ptr<PhysicsController> middleLower;
-		shared_ptr<PhysicsController> ringLower;
-		shared_ptr<PhysicsController> pinkyLower;
+		std::vector<std::shared_ptr<ivanPatri>> fingerList;
 
-		shared_ptr<PhysicsController> thumbUpper;
-		shared_ptr<PhysicsController> indexUpper;
-		shared_ptr<PhysicsController> middleUpper;
-		shared_ptr<PhysicsController> ringUpper;
-		shared_ptr<PhysicsController> pinkyUpper;
+		int gunSelection;
+		float elapsedTime;
+		float elapsedTimeSelection;
+		float elapsedJointGun;
+		float elapsedSphereGun;
+		float elapsedRagDollLauncher;
+		float elapsedMorphGun;
+		void GunSelection(float timeDelta);
+		void GravityGun();
+		void JointGun(float timeDelta);
+		void SphereGun(float timeDelta);
+		void RagDollLauncher(float timeDelta);
+		void MorphGun(float timeDelta);
 
-		float elapsedLeapFrameTime;
+		PhysicsController * pickedUpGravityGun;
+
 	};
 
 }

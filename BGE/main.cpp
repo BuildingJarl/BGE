@@ -6,6 +6,7 @@
 #include<glm.hpp>
 #include "Game.h"
 #include "Assignment.h"
+#include "Lab6.h"
 
 using namespace BGE;
 

@@ -72,8 +72,11 @@ bool Assignment::Initialise()
 
 	//Leap Motion Hands
 
-	shared_ptr<LeapHandGun> leapHandGun = make_shared<LeapHandGun>(leapmotionController,physicsFactory);
-	Attach(leapHandGun);
+	shared_ptr<Hand> leapHand = make_shared<Hand>(leapmotionController,physicsFactory);
+	Attach(leapHand);
+
+	//shared_ptr<LeapHandGun> leapHandGun = make_shared<LeapHandGun>(leapmotionController,physicsFactory);
+	//Attach(leapHandGun);
 
 	//shared_ptr<LineHand> lineHand = make_shared<LineHand>(leapmotionController,dynamicsWorld);
 	//Attach(lineHand);
