@@ -89,7 +89,7 @@ bool Assignment::Initialise()
 
 void Assignment::Update(float timeDelta)
 {	
-
+	Game::PrintText("Press Tab to change guns");
 	if(leapmotionListener.debugInfo.size() > 0)
 	{
 		Game::PrintText(leapmotionListener.debugInfo);

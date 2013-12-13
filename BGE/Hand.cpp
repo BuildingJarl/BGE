@@ -99,7 +99,7 @@ void Hand::Update(float timeDelta)
 		Leap::Finger thumbF = hand.fingers().leftmost();
 		Leap::Finger middleF = hand.fingers().frontmost();
 
-		if( thumbF.id() == middleF.id() && thumbF.isValid() && middleF.isValid())
+		if( thumbF.id() == middleF.id() && thumbF.isValid() && middleF.isValid() && middle != NULL)
 		{
 			Game::Instance()->PrintText("Shooting");
 			float distance = 100.0f;
