@@ -46,6 +46,8 @@ bool Hand::Initialise()
 		fingerList.push_back(eff);
 	}
 
+	pinky = physicsFactory->CreateKinematicSphere(1,glm::vec3(-8,0,-3));
+
 	return true;
 }
 
@@ -85,6 +87,11 @@ void Hand::Update(float timeDelta)
 			{
 				middle = fingerList[f];
 			}
+			else if(finger == hand.fingers().rightmost())
+			{
+				//middle = fingerList[f];
+				pinky->parent->position = glm::vec3(fp.x,fp.y-100,fp.z);
+			}
 
 		}
 
@@ -96,7 +103,11 @@ void Hand::Update(float timeDelta)
 		{
 			Game::Instance()->PrintText("Shooting");
 			float distance = 100.0f;
-			LineDrawer::DrawLine(middle->position,middle->position + (middle->look * distance), glm::vec3(255,255,0));
+			if(middle != NULL)
+			{
+				LineDrawer::DrawLine(middle->position,middle->position + (middle->look * distance), glm::vec3(255,255,0));
+			}
+			
 			switch(gunSelection)
 			{
 				case 1:
@@ -140,7 +151,7 @@ void Hand::GunSelection(float timeDelta)
 {
 	const Uint8 * keyState = Game::Instance()->GetKeyState();
 
-	float timeToPass = 1.0f / 3.0f;
+	float timeToPass = 1.0f / 2.0f;
 
 	if(elapsedTimeSelection > timeToPass)
 	{

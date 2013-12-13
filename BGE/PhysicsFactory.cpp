@@ -450,7 +450,5 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateRagDoll(glm::vec3 position)
     p2p = new btPoint2PointConstraint(*torso->rigidBody,*bodyPart->rigidBody, btVector3(0,0.70f,0),btVector3(-0.2,0,0));
     dynamicsWorld->addConstraint(p2p);
 
-    torso->tag = "Ragdoll";
-
     return torso;
 } 

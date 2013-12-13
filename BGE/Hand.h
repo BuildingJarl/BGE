@@ -27,7 +27,7 @@ namespace BGE
 		bool Initialise();
 
 		shared_ptr<ivanPatri> palm;
-
+		shared_ptr<KinematicController> pinky;
 		shared_ptr<ivanPatri> thumb;
 		shared_ptr<ivanPatri> middle;
 

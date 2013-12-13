@@ -23,8 +23,8 @@ using namespace BGE;
 
 Assignment::Assignment(void)
 {
-	width = 1000;
-	height = 800;
+	width = 1200;
+	height = 1000;
 	physicsFactory = NULL;
 	dynamicsWorld = NULL;
 	broadphase = NULL;
@@ -67,6 +67,7 @@ bool Assignment::Initialise()
 	physicsFactory->CreateCameraPhysics();
 
 	physicsFactory->CreateWall(glm::vec3(-20,0,-100), 5, 5, 20,10,20);
+	physicsFactory->CreateWall(glm::vec3(-80,0,-100), 5, 5, 10,10,20);
 
 	/* Assignment Submissions */
 
